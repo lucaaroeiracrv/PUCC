@@ -1,5 +1,4 @@
-/* Sistema de Biblioteca - Versao 1
-   Conteudo em foco: vetores, for, while e estruturas de decisao. */
+// Sistema de Biblioteca v1 - Conteudo em foco: vetores, for, while e estruturas de decisao.
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,8 +15,8 @@ int main() {
     int qtdLivros = 0;
     bool repetido = false;
 
-    /* CADASTRO */
-    printf("=== CADASTRO DE LIVROS ===\n");
+    // Cadastro 
+    printf(" CADASTRO DE LIVROS \n");
 
     while (qtdLivros < MAX_LIVROS) {
         printf("\nLivro %d\n", qtdLivros + 1);
@@ -54,20 +53,20 @@ int main() {
         qtdLivros++;
     }
 
-    /* LISTAGEM */
-    printf("\n=== LISTAGEM DE LIVROS ===\n");
+    // Lista
+    printf("\n LISTA DE LIVROS \n");
     for (i = 0; i < qtdLivros; i++) {
         printf("Codigo: %d | Estoque: %d\n", codigos[i], estoques[i]);
     }
 
-    /* TOTAL DE EXEMPLARES */
+    // Estoque total
     estoqueTotal = 0;
     for (i = 0; i < qtdLivros; i++) {
         estoqueTotal = estoqueTotal + estoques[i];
     }
     printf("\nTotal de exemplares: %d\n", estoqueTotal);
 
-    /* BUSCA */
+    // Busca 
     printf("\nInforme o codigo que deseja buscar: ");
     scanf("%d", &codigoBuscado);
 
