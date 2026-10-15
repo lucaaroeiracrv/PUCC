@@ -1,6 +1,4 @@
-/* Sistema de Biblioteca - Versao 6
-   Conteudo em foco: integracao de vetores, strings, funcoes, structs e ponteiros.
-   Sem prototipos: cada funcao e definida ANTES de quem a utiliza. */
+/* Sistema de Biblioteca v6 - Conteudo em foco: integracao de vetores, strings, funcoes, structs e ponteiros.
 
 #include <stdio.h>
 #include <stdlib.h>
