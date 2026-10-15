@@ -1,6 +1,4 @@
-/* Sistema de Biblioteca - Versao 4
-   Conteudo em foco: structs e vetores de structs.
-   Sem prototipos: cada funcao e definida ANTES de quem a utiliza. */
+// Sistema de Biblioteca v4 - Conteudo em foco: structs e vetores de structs.
 
 #include <stdio.h>
 #include <stdlib.h>
