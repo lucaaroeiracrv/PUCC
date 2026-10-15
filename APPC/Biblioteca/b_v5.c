@@ -1,6 +1,4 @@
-/* Sistema de Biblioteca - Versao 5
-   Conteudo em foco: ponteiros e passagem por endereco.
-   Sem prototipos: cada funcao e definida ANTES de quem a utiliza. */
+// Sistema de Biblioteca v5 - Conteudo em foco: ponteiros e passagem por endereco.
 
 #include <stdio.h>
 #include <stdlib.h>
