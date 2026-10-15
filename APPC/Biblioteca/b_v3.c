@@ -1,6 +1,4 @@
-/* Sistema de Biblioteca - Versao 3
-   Conteudo em foco: funcoes, parametros, valores de retorno e escopo.
-   Sem prototipos: cada funcao e definida ANTES de quem a utiliza. */
+// Sistema de Biblioteca v3 - Conteudo em foco: funcoes, parametros, valores de retorno e escopo.
 
 #include <stdio.h>
 #include <stdlib.h>
