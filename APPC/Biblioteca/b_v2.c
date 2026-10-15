@@ -1,5 +1,5 @@
-/* Sistema de Biblioteca - Versao 2
-   Conteudo em foco: strings como vetores de caracteres. */
+// Sistema de Biblioteca v2 -  Conteudo em foco: strings como vetores de caracteres.
+  
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,8 +21,8 @@ int main() {
     int qtdLivros = 0;
     bool repetido = false;
 
-    /* CADASTRO */
-    printf("=== CADASTRO DE LIVROS ===\n");
+    // Cadastro 
+    printf(" CADASTRO DE LIVROS \n");
 
     while (qtdLivros < MAX_LIVROS) {
         repetido = false;
@@ -57,7 +57,7 @@ int main() {
             continue;
         }
 
-        /* Limpa o restante da entrada antes de usar fgets */
+        // Limpa o restante da entrada antes de usar fgets 
         letra = getchar();
 
         while (letra != '\n' && letra != EOF) {
@@ -82,8 +82,8 @@ int main() {
         qtdLivros++;
     }
 
-    /* LISTAGEM */
-    printf("\n=== LISTAGEM DE LIVROS ===\n");
+    // Lista 
+    printf("\n LISTA DE LIVROS \n");
 
     for (i = 0; i < qtdLivros; i++) {
         if (i == 0) {
@@ -98,7 +98,7 @@ int main() {
         }
     }
 
-    /* TOTAL DE EXEMPLARES */
+    // Estoque total
     estoqueTotal = 0;
 
     for (i = 0; i < qtdLivros; i++) {
@@ -107,7 +107,7 @@ int main() {
 
     printf("\nTotal de exemplares: %d\n", estoqueTotal);
 
-    /* BUSCA */
+    // Busca
     printf("\nInforme o codigo que deseja buscar: ");
     scanf("%d", &codigoBuscado);
 
