@@ -1,0 +1,31 @@
+{
+  "name": "pi2-atendimento",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Projeto integrador com interface compartilhada e backend Node.js/MySQL.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "formatar": "prettier --write .",
+    "verificar:formatacao": "prettier --check .",
+    "configurar": "node scripts/configurar-env.js",
+    "preparar": "node --env-file=.env scripts/preparar-banco.js",
+    "testar:conexao": "node --env-file=.env scripts/testar-conexao.js",
+    "start": "node --env-file=.env src/servidor.js",
+    "test": "node --test tests/*.test.js",
+    "configurar:testes": "node scripts/configurar-testes.js",
+    "preparar:testes": "node --env-file=.env.teste scripts/preparar-banco.js",
+    "test:integracao": "node --env-file=.env.teste --test tests/integracao/*.test.js",
+    "conferir:dados": "node --env-file=.env scripts/conferir-dados.js",
+    "conferir:entrega": "node scripts/conferir-entrega.js",
+    "diagnostico": "node --env-file=.env scripts/diagnostico.js"
+  },
+  "devDependencies": {
+    "prettier": "3.9.10"
+  },
+  "dependencies": {
+    "mysql2": "3.24.6"
+  }
+}
