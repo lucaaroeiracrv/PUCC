@@ -1,0 +1,86 @@
+<!doctype html>
+<!-- As telas funcionais compartilham tema, navegação e identidade de sessão. -->
+<!-- O idioma permite ao navegador e aos leitores de tela interpretar este conteúdo em português. -->
+<html lang="pt-BR">
+  <head>
+    <!-- UTF-8 mantém os acentos, e viewport permite adaptar o formulário ao celular. -->
+    <!-- UTF-8 preserva os acentos nos textos e comentários. -->
+    <meta charset="utf-8" />
+    <!-- A largura acompanha a tela para que o layout móvel possa aplicar seus próprios recuos. -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- O título identifica a página na aba do navegador. -->
+    <title>PI2 • Buscar paciente e abrir atendimento</title>
+    <!-- O módulo reaproveita as funções de acesso, mensagens e pedidos ao backend. -->
+    <!-- Reutiliza o estilo compartilhado, sem duplicar regras nesta página. -->
+    <link rel="stylesheet" href="../assets/css/tema.css" />
+    <!-- Carrega o comportamento depois da leitura da estrutura HTML por meio de defer. -->
+    <script type="module" src="../assets/js/recepcao.js"></script>
+  </head>
+  <body>
+    <!-- Mantém a identificação do projeto e a navegação principal no mesmo lugar. -->
+    <header>
+      <div class="marca">
+        PI2
+        <small>Sistema de atendimento</small>
+      </div>
+      <!-- O caminho acompanha a estrutura por função e mantém a navegação entre páginas. -->
+      <a href="/">Início do sistema</a>
+    </header>
+    <!-- Delimita o conteúdo principal para facilitar a navegação por tecnologias assistivas. -->
+    <main>
+      <!-- Identifica o assunto principal da página com um único título de primeiro nível. -->
+      <h1>Buscar paciente e abrir atendimento</h1>
+      <p class="subtitulo">Escolha um paciente cadastrado para iniciar seu atendimento.</p>
+      <!-- A sessão preenche o profissional, sem exigir que ele digite o próprio nome. -->
+      <p>
+        Usuário conectado:
+        <strong data-identidade></strong>
+      </p>
+      <!-- Agrupa os controles e o conteúdo de uma mesma etapa do fluxo. -->
+      <section class="cartao">
+        <!-- Identifica a seção para facilitar a leitura e a navegação pelos assuntos. -->
+        <h2>Buscar paciente</h2>
+        <!-- O formulário form-busca entrega seus campos ao comportamento JavaScript correspondente. -->
+        <form id="form-busca" class="linha">
+          <!-- Nome ou documento: o nome do campo corresponde ao dado validado no backend. -->
+          <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+          <label class="campo">
+            Nome ou documento
+            <!-- O campo busca mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+            <input name="busca" type="text" required maxlength="100" />
+          </label>
+          <!-- A ação é tratada pelo formulário ou pelo evento JavaScript, conforme o tipo do botão. -->
+          <button type="submit">Buscar</button>
+        </form>
+        <p id="resultado-busca">Informe pelo menos dois caracteres para buscar.</p>
+        <div class="tabela">
+          <!-- Apresenta registros com os mesmos campos para facilitar a comparação. -->
+          <table>
+            <!-- Descreve a finalidade da tabela também para leitores de tela. -->
+            <caption>Pacientes encontrados</caption>
+            <!-- Separa os títulos das colunas dos registros apresentados. -->
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Nascimento</th>
+                <th>Documento</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <!-- Agrupa os registros; no painel, este conteúdo é atualizado com dados devolvidos pelo backend. -->
+            <tbody id="pacientes"></tbody>
+          </table>
+        </div>
+        <p>
+          <!-- O caminho acompanha a estrutura por função e mantém a navegação entre páginas. -->
+          <a href="cadastro.html">Cadastrar outro paciente</a>
+        </p>
+      </section>
+      <!-- A região anuncia sucesso e falha também para quem utiliza leitor de tela. -->
+      <!-- Anuncia o resultado das ações sem exigir que a pessoa procure a mensagem na página. -->
+      <p class="mensagem" role="status" aria-live="polite"></p>
+    </main>
+    <!-- Identifica o contexto acadêmico e o uso de dados de exemplo. -->
+    <footer>PI2 • Projeto integrador • Ambiente de demonstração</footer>
+  </body>
+</html>

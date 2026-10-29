@@ -1,0 +1,97 @@
+<!doctype html>
+<!-- O idioma permite ao navegador e aos leitores de tela interpretar este conteúdo em português. -->
+<html lang="pt-BR">
+  <head>
+    <!-- UTF-8 preserva os acentos nos textos e comentários. -->
+    <meta charset="utf-8" />
+    <!-- A largura acompanha a tela para que o layout móvel possa aplicar seus próprios recuos. -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- O título identifica a página na aba do navegador. -->
+    <title>PI2 • Sistema de atendimento</title>
+    <!-- O tema e o módulo são compartilhados com as outras telas. -->
+    <!-- Reutiliza o estilo compartilhado, sem duplicar regras nesta página. -->
+    <link rel="stylesheet" href="assets/css/tema.css" />
+    <!-- Carrega o comportamento depois da leitura da estrutura HTML por meio de defer. -->
+    <script type="module" src="assets/js/painel.js"></script>
+  </head>
+  <body>
+    <!-- Mantém a identificação do projeto e a navegação principal no mesmo lugar. -->
+    <header>
+      <div class="marca">
+        PI2
+        <small>Sistema de atendimento</small>
+      </div>
+      <!-- O caminho acompanha a estrutura por função e mantém a navegação entre páginas. -->
+      <a href="index.html">Materiais do projeto</a>
+    </header>
+    <!-- Delimita o conteúdo principal para facilitar a navegação por tecnologias assistivas. -->
+    <main>
+      <!-- Identifica o assunto principal da página com um único título de primeiro nível. -->
+      <h1>Sistema de atendimento</h1>
+      <!-- Agrupa os controles e o conteúdo de uma mesma etapa do fluxo. -->
+      <section class="cartao" id="entrada">
+        <!-- Identifica a seção para facilitar a leitura e a navegação pelos assuntos. -->
+        <h2>Entrar no sistema</h2>
+        <p>Contas de demonstração: recepcao, enfermagem e medico. Senha inicial: Pi2@2026!</p>
+        <!-- O formulário form-login entrega seus campos ao comportamento JavaScript correspondente. -->
+        <form id="form-login">
+          <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+          <label class="campo">
+            Usuário
+            <!-- O campo login mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+            <input name="login" autocomplete="username" maxlength="100" required />
+          </label>
+          <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+          <label class="campo">
+            Senha
+            <!-- O campo senha mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+            <input
+              name="senha"
+              type="password"
+              autocomplete="current-password"
+              maxlength="200"
+              required
+            />
+          </label>
+          <!-- A ação é tratada pelo formulário ou pelo evento JavaScript, conforme o tipo do botão. -->
+          <button type="submit">Entrar</button>
+        </form>
+      </section>
+      <!-- A navegação aparece somente depois de recuperar a sessão. -->
+      <!-- A seção começa oculta e só aparece quando o estado da interface permitir. -->
+      <section class="cartao" id="sessao" hidden>
+        <div class="linha">
+          <!-- Identifica a seção para facilitar a leitura e a navegação pelos assuntos. -->
+          <h2 id="identidade"></h2>
+          <!-- A ação é tratada pelo formulário ou pelo evento JavaScript, conforme o tipo do botão. -->
+          <button type="button" id="sair" class="secundario">Sair</button>
+        </div>
+        <!-- Agrupa as ações de navegação; seus rótulos indicam qual tela pode ser consultada. -->
+        <nav class="acoes" aria-label="Áreas do sistema">
+          <!-- O caminho acompanha a estrutura por função e mantém a navegação entre páginas. -->
+          <a class="botao" data-perfis="recepcao" href="screens/cadastro.html">
+            Cadastrar paciente
+          </a>
+          <!-- O caminho acompanha a estrutura por função e mantém a navegação entre páginas. -->
+          <a class="botao" data-perfis="recepcao" href="screens/recepcao.html">Recepção</a>
+          <!-- O caminho acompanha a estrutura por função e mantém a navegação entre páginas. -->
+          <a class="botao" data-perfis="enfermagem" href="screens/triagem.html">Triagem</a>
+          <!-- O caminho acompanha a estrutura por função e mantém a navegação entre páginas. -->
+          <a class="botao" data-perfis="medico" href="screens/medico.html">Painel médico</a>
+          <!-- O caminho acompanha a estrutura por função e mantém a navegação entre páginas. -->
+          <a
+            class="botao"
+            data-perfis="enfermagem,medico"
+            href="screens/medicacoes-encerramento.html"
+          >
+            Medicações e encerramento
+          </a>
+        </nav>
+      </section>
+      <!-- Anuncia o resultado das ações sem exigir que a pessoa procure a mensagem na página. -->
+      <p class="mensagem" role="status" aria-live="polite"></p>
+    </main>
+    <!-- Identifica o contexto acadêmico e o uso de dados de exemplo. -->
+    <footer>PI2 • Projeto integrador</footer>
+  </body>
+</html>

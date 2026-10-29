@@ -1,0 +1,90 @@
+<!doctype html>
+<!-- As telas funcionais compartilham tema, navegação e identidade de sessão. -->
+<!-- O idioma permite ao navegador e aos leitores de tela interpretar este conteúdo em português. -->
+<html lang="pt-BR">
+  <head>
+    <!-- UTF-8 mantém os acentos, e viewport permite adaptar o formulário ao celular. -->
+    <!-- UTF-8 preserva os acentos nos textos e comentários. -->
+    <meta charset="utf-8" />
+    <!-- A largura acompanha a tela para que o layout móvel possa aplicar seus próprios recuos. -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- O título identifica a página na aba do navegador. -->
+    <title>PI2 • Cadastro do paciente</title>
+    <!-- O módulo reaproveita as funções de acesso, mensagens e pedidos ao backend. -->
+    <!-- Reutiliza o estilo compartilhado, sem duplicar regras nesta página. -->
+    <link rel="stylesheet" href="../assets/css/tema.css" />
+    <!-- Carrega o comportamento depois da leitura da estrutura HTML por meio de defer. -->
+    <script type="module" src="../assets/js/recepcao.js"></script>
+  </head>
+  <body>
+    <!-- Mantém a identificação do projeto e a navegação principal no mesmo lugar. -->
+    <header>
+      <div class="marca">
+        PI2
+        <small>Sistema de atendimento</small>
+      </div>
+      <!-- O caminho acompanha a estrutura por função e mantém a navegação entre páginas. -->
+      <a href="/">Início do sistema</a>
+    </header>
+    <!-- Delimita o conteúdo principal para facilitar a navegação por tecnologias assistivas. -->
+    <main>
+      <!-- Identifica o assunto principal da página com um único título de primeiro nível. -->
+      <h1>Cadastro do paciente</h1>
+      <p class="subtitulo">Preencha os dados do paciente para guardar o cadastro no MySQL.</p>
+      <!-- A sessão preenche o profissional, sem exigir que ele digite o próprio nome. -->
+      <p>
+        Usuário conectado:
+        <strong data-identidade></strong>
+      </p>
+      <!-- Agrupa os controles e o conteúdo de uma mesma etapa do fluxo. -->
+      <section class="cartao">
+        <!-- Identifica a seção para facilitar a leitura e a navegação pelos assuntos. -->
+        <h2>Novo paciente</h2>
+        <!-- O formulário form-paciente entrega seus campos ao comportamento JavaScript correspondente. -->
+        <form id="form-paciente" class="formulario">
+          <!-- Nome completo: o nome do campo corresponde ao dado validado no backend. -->
+          <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+          <label class="campo">
+            Nome completo
+            <!-- O campo nome mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+            <input name="nome" type="text" required maxlength="120" />
+          </label>
+          <!-- Data de nascimento: o nome do campo corresponde ao dado validado no backend. -->
+          <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+          <label class="campo">
+            Data de nascimento
+            <!-- O campo data_nascimento mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+            <input name="data_nascimento" type="date" required />
+          </label>
+          <!-- Documento opcional: o nome do campo corresponde ao dado validado no backend. -->
+          <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+          <label class="campo">
+            Documento opcional
+            <!-- O campo documento mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+            <input name="documento" type="text" maxlength="40" />
+          </label>
+          <!-- Telefone opcional: o nome do campo corresponde ao dado validado no backend. -->
+          <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+          <label class="campo">
+            Telefone opcional
+            <!-- O campo telefone mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+            <input name="telefone" type="tel" maxlength="20" />
+          </label>
+          <div class="acoes inteira">
+            <!-- A ação é tratada pelo formulário ou pelo evento JavaScript, conforme o tipo do botão. -->
+            <button type="submit">Salvar paciente</button>
+            <!-- Limpa o formulário sem executar uma operação no banco. -->
+            <button type="reset" class="secundario">Limpar</button>
+            <!-- O caminho acompanha a estrutura por função e mantém a navegação entre páginas. -->
+            <a href="recepcao.html">Buscar paciente</a>
+          </div>
+        </form>
+      </section>
+      <!-- A região anuncia sucesso e falha também para quem utiliza leitor de tela. -->
+      <!-- Anuncia o resultado das ações sem exigir que a pessoa procure a mensagem na página. -->
+      <p class="mensagem" role="status" aria-live="polite"></p>
+    </main>
+    <!-- Identifica o contexto acadêmico e o uso de dados de exemplo. -->
+    <footer>PI2 • Projeto integrador • Ambiente de demonstração</footer>
+  </body>
+</html>

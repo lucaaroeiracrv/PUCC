@@ -1,0 +1,210 @@
+[
+  {
+    "tela": "Login",
+    "campo": "login",
+    "formato": "Texto, até 100",
+    "obrigatorio": "Sim",
+    "tabela": "usuarios.login",
+    "observacao": "Usuário fictício: recepcao, enfermagem ou medico."
+  },
+  {
+    "tela": "Login",
+    "campo": "senha",
+    "formato": "Texto, até 200",
+    "obrigatorio": "Sim",
+    "tabela": "usuarios.senha_hash",
+    "observacao": "O código salva e compara um hash scrypt."
+  },
+  {
+    "tela": "Paciente",
+    "campo": "nome",
+    "formato": "Texto de 2 a 120",
+    "obrigatorio": "Sim",
+    "tabela": "pacientes.nome",
+    "observacao": "Remover espaços nas pontas. Mostrar como texto nas telas."
+  },
+  {
+    "tela": "Paciente",
+    "campo": "data_nascimento",
+    "formato": "Data AAAA-MM-DD",
+    "obrigatorio": "Sim",
+    "tabela": "pacientes.data_nascimento",
+    "observacao": "Data existente, de 1900 até o dia atual."
+  },
+  {
+    "tela": "Paciente",
+    "campo": "documento",
+    "formato": "Texto de 3 a 40",
+    "obrigatorio": "Não",
+    "tabela": "pacientes.documento",
+    "observacao": "Identificador genérico nesta proposta; único quando informado."
+  },
+  {
+    "tela": "Paciente",
+    "campo": "telefone",
+    "formato": "Texto, até 20",
+    "obrigatorio": "Não",
+    "tabela": "pacientes.telefone",
+    "observacao": "Ao informar: pelo menos 8 dígitos; aceita espaços, +, -, ( e )."
+  },
+  {
+    "tela": "Cadastro",
+    "campo": "chave_cadastro",
+    "formato": "UUID v4",
+    "obrigatorio": "Gerado pelo código",
+    "tabela": "pacientes.chave_cadastro",
+    "observacao": "Reutilizar ao repetir a mesma tentativa; evita duplicação por repetição."
+  },
+  {
+    "tela": "Atendimento",
+    "campo": "paciente_id",
+    "formato": "Número inteiro positivo",
+    "obrigatorio": "Sim",
+    "tabela": "atendimentos.paciente_id",
+    "observacao": "Deve apontar para paciente existente."
+  },
+  {
+    "tela": "Atendimento",
+    "campo": "recepcionista_id",
+    "formato": "Número inteiro",
+    "obrigatorio": "Pela sessão",
+    "tabela": "atendimentos.recepcionista_id",
+    "observacao": "Não confiar em um ID de usuário enviado pelo formulário."
+  },
+  {
+    "tela": "Atendimento",
+    "campo": "situacao",
+    "formato": "Texto controlado",
+    "obrigatorio": "Pelo backend",
+    "tabela": "atendimentos.situacao",
+    "observacao": "Começa como aguardando_triagem."
+  },
+  {
+    "tela": "Abertura",
+    "campo": "chave_abertura",
+    "formato": "UUID v4",
+    "obrigatorio": "Gerado pelo código",
+    "tabela": "atendimentos.chave_abertura",
+    "observacao": "Uma mesma tentativa retorna o mesmo atendimento."
+  },
+  {
+    "tela": "Triagem",
+    "campo": "queixa",
+    "formato": "Texto de 1 a 2000",
+    "obrigatorio": "Sim",
+    "tabela": "triagens.queixa",
+    "observacao": "Conteúdo obrigatório após remover espaços nas pontas."
+  },
+  {
+    "tela": "Triagem",
+    "campo": "pressao",
+    "formato": "Texto, até 15",
+    "obrigatorio": "Não",
+    "tabela": "triagens.pressao",
+    "observacao": "Informação digitada; não calcula risco."
+  },
+  {
+    "tela": "Triagem",
+    "campo": "temperatura",
+    "formato": "Decimal de 0 a 99,99",
+    "obrigatorio": "Não",
+    "tabela": "triagens.temperatura",
+    "observacao": "Campo vazio vira NULL; limite de armazenamento, sem interpretação clínica."
+  },
+  {
+    "tela": "Triagem",
+    "campo": "frequencia",
+    "formato": "Inteiro de 0 a 65535",
+    "obrigatorio": "Não",
+    "tabela": "triagens.frequencia",
+    "observacao": "Limite técnico de SMALLINT UNSIGNED."
+  },
+  {
+    "tela": "Triagem",
+    "campo": "saturacao",
+    "formato": "Decimal de 0 a 100",
+    "obrigatorio": "Não",
+    "tabela": "triagens.saturacao",
+    "observacao": "Formato percentual; não atribui classificação automaticamente."
+  },
+  {
+    "tela": "Triagem",
+    "campo": "classificacao",
+    "formato": "vermelho, laranja, amarelo, verde ou azul",
+    "obrigatorio": "Sim na conclusão",
+    "tabela": "triagens.classificacao",
+    "observacao": "Enfermagem escolhe manualmente. NULL é permitido apenas para completar registros anteriores."
+  },
+  {
+    "tela": "Consulta",
+    "campo": "registro",
+    "formato": "Texto de 1 a 4000",
+    "obrigatorio": "Sim",
+    "tabela": "consultas.registro",
+    "observacao": "Uma consulta por atendimento; autoria vem da sessão médica."
+  },
+  {
+    "tela": "Medicações",
+    "campo": "medicacao",
+    "formato": "Texto de 1 a 120",
+    "obrigatorio": "Sim",
+    "tabela": "medicacoes.medicacao",
+    "observacao": "Nome informado pela enfermagem, sem recomendação pelo sistema."
+  },
+  {
+    "tela": "Medicações",
+    "campo": "dose",
+    "formato": "Texto de 1 a 80",
+    "obrigatorio": "Sim",
+    "tabela": "medicacoes.dose",
+    "observacao": "Texto informado, sem cálculo ou prescrição automática."
+  },
+  {
+    "tela": "Medicações",
+    "campo": "via",
+    "formato": "Texto de 1 a 60",
+    "obrigatorio": "Sim",
+    "tabela": "medicacoes.via",
+    "observacao": "Texto informado para o atendimento selecionado."
+  },
+  {
+    "tela": "Medicações",
+    "campo": "observacoes",
+    "formato": "Texto, até 2000",
+    "obrigatorio": "Não",
+    "tabela": "medicacoes.observacoes",
+    "observacao": "Campo opcional; pode haver várias medicações na mesma visita."
+  },
+  {
+    "tela": "Encerramento",
+    "campo": "observacoes",
+    "formato": "Texto, até 2000",
+    "obrigatorio": "Não",
+    "tabela": "encerramentos.observacoes",
+    "observacao": "Somente o médico autor da consulta encerra."
+  },
+  {
+    "tela": "Encerramento",
+    "campo": "confirmação",
+    "formato": "Caixa marcada",
+    "obrigatorio": "Sim na tela",
+    "tabela": "Não persistida como coluna",
+    "observacao": "A gravação do encerramento e da situação final acontece na mesma transação."
+  },
+  {
+    "tela": "Registros clínicos",
+    "campo": "profissional",
+    "formato": "ID inteiro",
+    "obrigatorio": "Pela sessão",
+    "tabela": "enfermeiro_id ou medico_id",
+    "observacao": "O servidor ignora identidade enviada por formulário e usa o usuário conectado."
+  },
+  {
+    "tela": "Registros clínicos",
+    "campo": "chave_registro",
+    "formato": "UUID v4",
+    "obrigatorio": "Gerado pelo código",
+    "tabela": "Cada tabela clínica",
+    "observacao": "Mesma chave com dados diferentes gera conflito; repetir conteúdo idêntico não duplica."
+  }
+]

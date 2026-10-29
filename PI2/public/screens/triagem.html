@@ -1,0 +1,129 @@
+<!doctype html>
+<!-- As telas funcionais compartilham tema, navegação e identidade de sessão. -->
+<!-- O idioma permite ao navegador e aos leitores de tela interpretar este conteúdo em português. -->
+<html lang="pt-BR">
+  <head>
+    <!-- UTF-8 mantém os acentos, e viewport permite adaptar o formulário ao celular. -->
+    <!-- UTF-8 preserva os acentos nos textos e comentários. -->
+    <meta charset="utf-8" />
+    <!-- A largura acompanha a tela para que o layout móvel possa aplicar seus próprios recuos. -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- O título identifica a página na aba do navegador. -->
+    <title>PI2 • Triagem</title>
+    <!-- O módulo reaproveita as funções de acesso, mensagens e pedidos ao backend. -->
+    <!-- Reutiliza o estilo compartilhado, sem duplicar regras nesta página. -->
+    <link rel="stylesheet" href="../assets/css/tema.css" />
+    <!-- Carrega o comportamento depois da leitura da estrutura HTML por meio de defer. -->
+    <script type="module" src="../assets/js/triagem.js"></script>
+  </head>
+  <body>
+    <!-- Mantém a identificação do projeto e a navegação principal no mesmo lugar. -->
+    <header>
+      <div class="marca">
+        PI2
+        <small>Sistema de atendimento</small>
+      </div>
+      <!-- O caminho acompanha a estrutura por função e mantém a navegação entre páginas. -->
+      <a href="/">Início do sistema</a>
+    </header>
+    <!-- Delimita o conteúdo principal para facilitar a navegação por tecnologias assistivas. -->
+    <main>
+      <!-- Identifica o assunto principal da página com um único título de primeiro nível. -->
+      <h1>Triagem</h1>
+      <p class="subtitulo">
+        Selecione um atendimento da fila. Os dados serão vinculados a esse atendimento e à sua
+        sessão.
+      </p>
+      <!-- A sessão preenche o profissional, sem exigir que ele digite o próprio nome. -->
+      <p>
+        Usuário conectado:
+        <strong data-identidade></strong>
+      </p>
+      <!-- A ação é tratada pelo formulário ou pelo evento JavaScript, conforme o tipo do botão. -->
+      <button type="button" id="atualizar" class="secundario">Atualizar fila</button>
+      <!-- A lista recebe apenas atendimentos autorizados para o perfil conectado. -->
+      <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+      <label class="campo">
+        Atendimento
+        <!-- O campo atendimento mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+        <select id="atendimento" required>
+          <option value="">Carregando atendimentos...</option>
+        </select>
+      </label>
+      <!-- O resumo é preenchido por textContent para não interpretar nomes como HTML. -->
+      <!-- A seção começa oculta e só aparece quando o estado da interface permitir. -->
+      <section class="cartao" id="resumo" hidden aria-label="Resumo do atendimento"></section>
+      <!-- Agrupa os controles e o conteúdo de uma mesma etapa do fluxo. -->
+      <section class="cartao">
+        <!-- Identifica a seção para facilitar a leitura e a navegação pelos assuntos. -->
+        <h2>Registrar triagem</h2>
+        <!-- O formulário form-triagem entrega seus campos ao comportamento JavaScript correspondente. -->
+        <form id="form-triagem">
+          <fieldset disabled>
+            <legend>Dados deste atendimento</legend>
+            <div class="formulario">
+              <!-- O limite da tela acompanha a validação no servidor; o conteúdo é apresentado como texto. -->
+              <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+              <label class="campo inteira">
+                Queixa principal
+                <!-- O campo queixa mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+                <textarea name="queixa" maxlength="2000" required></textarea>
+              </label>
+              <!-- Pressão arterial informada: o nome do campo corresponde ao dado validado no backend. -->
+              <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+              <label class="campo">
+                Pressão arterial informada
+                <!-- O campo pressao mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+                <input name="pressao" type="text" maxlength="15" />
+              </label>
+              <!-- Temperatura em °C: o nome do campo corresponde ao dado validado no backend. -->
+              <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+              <label class="campo">
+                Temperatura em °C
+                <!-- O campo temperatura mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+                <input name="temperatura" type="number" min="0" step="0.01" />
+              </label>
+              <!-- Frequência cardíaca em bpm: o nome do campo corresponde ao dado validado no backend. -->
+              <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+              <label class="campo">
+                Frequência cardíaca em bpm
+                <!-- O campo frequencia mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+                <input name="frequencia" type="number" min="0" step="1" />
+              </label>
+              <!-- Saturação em %: o nome do campo corresponde ao dado validado no backend. -->
+              <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+              <label class="campo">
+                Saturação em %
+                <!-- O campo saturacao mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+                <input name="saturacao" type="number" min="0" step="0.01" />
+              </label>
+              <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+              <label class="campo inteira">
+                Classificação informada
+                <!-- O campo classificacao mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+                <select name="classificacao" required>
+                  <option value="">Selecione</option>
+                  <option value="vermelho">Vermelho</option>
+                  <option value="laranja">Laranja</option>
+                  <option value="amarelo">Amarelo</option>
+                  <option value="verde">Verde</option>
+                  <option value="azul">Azul</option>
+                </select>
+              </label>
+              <p class="meta inteira">
+                Classificação informada pelo profissional. O sistema não calcula critérios clínicos.
+              </p>
+              <!-- A ação é tratada pelo formulário ou pelo evento JavaScript, conforme o tipo do botão. -->
+              <button type="submit">Salvar triagem</button>
+            </div>
+          </fieldset>
+        </form>
+      </section>
+      <!-- A região anuncia sucesso e falha também para quem utiliza leitor de tela. -->
+      <!-- Anuncia o resultado das ações sem exigir que a pessoa procure a mensagem na página. -->
+      <p class="mensagem" role="status" aria-live="polite"></p>
+    </main>
+    <!-- Identifica o contexto acadêmico e o uso de dados de exemplo. -->
+    <footer>PI2 • Projeto integrador • Ambiente de demonstração</footer>
+  </body>
+</html>

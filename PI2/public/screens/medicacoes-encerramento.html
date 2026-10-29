@@ -1,0 +1,132 @@
+<!doctype html>
+<!-- As telas funcionais compartilham tema, navegação e identidade de sessão. -->
+<!-- O idioma permite ao navegador e aos leitores de tela interpretar este conteúdo em português. -->
+<html lang="pt-BR">
+  <head>
+    <!-- UTF-8 mantém os acentos, e viewport permite adaptar o formulário ao celular. -->
+    <!-- UTF-8 preserva os acentos nos textos e comentários. -->
+    <meta charset="utf-8" />
+    <!-- A largura acompanha a tela para que o layout móvel possa aplicar seus próprios recuos. -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- O título identifica a página na aba do navegador. -->
+    <title>PI2 • Medicações e encerramento</title>
+    <!-- O módulo reaproveita as funções de acesso, mensagens e pedidos ao backend. -->
+    <!-- Reutiliza o estilo compartilhado, sem duplicar regras nesta página. -->
+    <link rel="stylesheet" href="../assets/css/tema.css" />
+    <!-- Carrega o comportamento depois da leitura da estrutura HTML por meio de defer. -->
+    <script type="module" src="../assets/js/medicacoes.js"></script>
+  </head>
+  <body>
+    <!-- Mantém a identificação do projeto e a navegação principal no mesmo lugar. -->
+    <header>
+      <div class="marca">
+        PI2
+        <small>Sistema de atendimento</small>
+      </div>
+      <!-- O caminho acompanha a estrutura por função e mantém a navegação entre páginas. -->
+      <a href="/">Início do sistema</a>
+    </header>
+    <!-- Delimita o conteúdo principal para facilitar a navegação por tecnologias assistivas. -->
+    <main>
+      <!-- Identifica o assunto principal da página com um único título de primeiro nível. -->
+      <h1>Medicações e encerramento</h1>
+      <p class="subtitulo">
+        Os registros são vinculados ao paciente e ao atendimento selecionados.
+      </p>
+      <!-- A sessão preenche o profissional, sem exigir que ele digite o próprio nome. -->
+      <p>
+        Usuário conectado:
+        <strong data-identidade></strong>
+      </p>
+      <!-- A ação é tratada pelo formulário ou pelo evento JavaScript, conforme o tipo do botão. -->
+      <button type="button" id="atualizar" class="secundario">Atualizar fila</button>
+      <!-- A lista recebe apenas atendimentos autorizados para o perfil conectado. -->
+      <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+      <label class="campo">
+        Atendimento
+        <!-- O campo atendimento mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+        <select id="atendimento" required>
+          <option value="">Carregando atendimentos...</option>
+        </select>
+      </label>
+      <!-- O resumo é preenchido por textContent para não interpretar nomes como HTML. -->
+      <!-- A seção começa oculta e só aparece quando o estado da interface permitir. -->
+      <section class="cartao" id="resumo" hidden aria-label="Resumo do atendimento"></section>
+      <!-- A seção começa oculta e só aparece quando o estado da interface permitir. -->
+      <section class="cartao" id="medicacoes" hidden>
+        <!-- Identifica a seção para facilitar a leitura e a navegação pelos assuntos. -->
+        <h2>Registrar medicação</h2>
+        <!-- O formulário form-medicacao entrega seus campos ao comportamento JavaScript correspondente. -->
+        <form id="form-medicacao">
+          <fieldset disabled>
+            <legend>Dados informados pelo profissional</legend>
+            <div class="formulario">
+              <!-- Medicação informada: o nome do campo corresponde ao dado validado no backend. -->
+              <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+              <label class="campo">
+                Medicação informada
+                <!-- O campo medicacao mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+                <input name="medicacao" type="text" required maxlength="120" />
+              </label>
+              <!-- Dose informada: o nome do campo corresponde ao dado validado no backend. -->
+              <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+              <label class="campo">
+                Dose informada
+                <!-- O campo dose mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+                <input name="dose" type="text" required maxlength="80" />
+              </label>
+              <!-- Via informada: o nome do campo corresponde ao dado validado no backend. -->
+              <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+              <label class="campo">
+                Via informada
+                <!-- O campo via mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+                <input name="via" type="text" required maxlength="60" />
+              </label>
+              <!-- O limite da tela acompanha a validação no servidor; o conteúdo é apresentado como texto. -->
+              <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+              <label class="campo inteira">
+                Observações
+                <!-- O campo observacoes mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+                <textarea name="observacoes" maxlength="2000"></textarea>
+              </label>
+              <!-- A ação é tratada pelo formulário ou pelo evento JavaScript, conforme o tipo do botão. -->
+              <button type="submit">Salvar medicação</button>
+            </div>
+          </fieldset>
+        </form>
+      </section>
+      <!-- A seção começa oculta e só aparece quando o estado da interface permitir. -->
+      <section class="cartao" id="encerramento" hidden>
+        <!-- Identifica a seção para facilitar a leitura e a navegação pelos assuntos. -->
+        <h2>Encerrar atendimento</h2>
+        <p>Confira o resumo antes de finalizar.</p>
+        <!-- O formulário form-encerramento entrega seus campos ao comportamento JavaScript correspondente. -->
+        <form id="form-encerramento">
+          <fieldset disabled>
+            <legend>Confirmação do médico</legend>
+            <!-- O limite da tela acompanha a validação no servidor; o conteúdo é apresentado como texto. -->
+            <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+            <label class="campo inteira">
+              Observações finais
+              <!-- O campo observacoes mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+              <textarea name="observacoes" maxlength="2000"></textarea>
+            </label>
+            <!-- Associa a descrição ao campo, permitindo compreender a entrada antes de preencher. -->
+            <label class="check">
+              <!-- O campo de entrada mantém seu nome para que a leitura dos dados continue compatível com a regra da aplicação. -->
+              <input type="checkbox" required />
+              Conferi os dados deste atendimento.
+            </label>
+            <!-- A ação é tratada pelo formulário ou pelo evento JavaScript, conforme o tipo do botão. -->
+            <button type="submit">Confirmar encerramento</button>
+          </fieldset>
+        </form>
+      </section>
+      <!-- A região anuncia sucesso e falha também para quem utiliza leitor de tela. -->
+      <!-- Anuncia o resultado das ações sem exigir que a pessoa procure a mensagem na página. -->
+      <p class="mensagem" role="status" aria-live="polite"></p>
+    </main>
+    <!-- Identifica o contexto acadêmico e o uso de dados de exemplo. -->
+    <footer>PI2 • Projeto integrador • Ambiente de demonstração</footer>
+  </body>
+</html>
