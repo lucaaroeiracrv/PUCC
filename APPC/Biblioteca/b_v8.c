@@ -35,28 +35,33 @@ typedef struct NoHistorico {
     struct NoHistorico *proximo;
 } Historico;
 
-// Le um inteiro descartando todo o restante da linha.
+// Le um inteiro e descarta o restante da linha. Retorna false se a entrada
+// nao for um inteiro ou se o fluxo de entrada chegar ao fim (EOF).
 bool lerInteiro(int *numero) {
-    bool valido;
+    int caractere;
+    bool valido = (scanf("%d", numero) == 1);
 
-    valido = (scanf("%d", numero) == 1);
-    while (getchar() != '\n') {
-        // Descarta caracteres invalidos ou restantes da linha.
+    while ((caractere = getchar()) != '\n' && caractere != EOF) {
+        // Descarta os caracteres restantes da linha.
     }
+
     return valido;
 }
 
 void lerTexto(char texto[], int tamanho) {
-    int c;
+    int caractere;
+    size_t comprimento;
 
-    if (fgets(texto, tamanho, stdin) != NULL) {
-        texto[strcspn(texto, "\n")] = '\0';
-    } else {
+    if (fgets(texto, tamanho, stdin) == NULL) {
         texto[0] = '\0';
+        return;
     }
 
-    if (!strchr(texto, '\n') && strlen(texto) == tamanho - 1) {
-        while ((c = getchar()) != '\n' && c != EOF) {
+    comprimento = strlen(texto);
+    if (comprimento > 0 && texto[comprimento - 1] == '\n') {
+        texto[comprimento - 1] = '\0';
+    } else if (comprimento == (size_t)tamanho - 1) {
+        while ((caractere = getchar()) != '\n' && caractere != EOF) {
             // Descarta o excesso que nao coube no vetor.
         }
     }
@@ -64,7 +69,6 @@ void lerTexto(char texto[], int tamanho) {
 
 Cliente *buscarCliente(Cliente *inicio, int codigo) {
     Cliente *atual = inicio;
-
     while (atual != NULL) {
         if (atual->codigo == codigo) {
             return atual;
@@ -76,7 +80,6 @@ Cliente *buscarCliente(Cliente *inicio, int codigo) {
 
 Livro *buscarLivro(Livro *inicio, int codigo) {
     Livro *atual = inicio;
-
     while (atual != NULL) {
         if (atual->codigo == codigo) {
             return atual;
@@ -88,7 +91,6 @@ Livro *buscarLivro(Livro *inicio, int codigo) {
 
 void empilharHistorico(Historico **topo, const char *operacao) {
     Historico *novo = (Historico *)malloc(sizeof(Historico));
-
     if (novo == NULL) {
         printf("Erro: memoria insuficiente para o historico.\n");
         return;
@@ -102,13 +104,11 @@ void empilharHistorico(Historico **topo, const char *operacao) {
 
 void mostrarHistorico(Historico *topo) {
     Historico *atual = topo;
-
     printf("\n HISTORICO DE OPERACOES (mais recente primeiro) \n");
     if (atual == NULL) {
         printf("Nenhuma operacao registrada.\n");
         return;
     }
-
     while (atual != NULL) {
         printf("- %s\n", atual->operacao);
         atual = atual->proximo;
@@ -116,9 +116,7 @@ void mostrarHistorico(Historico *topo) {
 }
 
 void cadastrarCliente(Cliente **inicio, Historico **historico) {
-    Cliente *novo;
-    Cliente *ultimo;
-    Cliente *existente;
+    Cliente *novo, *ultimo;
     int codigo;
 
     printf("\nCodigo do cliente: ");
@@ -126,9 +124,7 @@ void cadastrarCliente(Cliente **inicio, Historico **historico) {
         printf("Erro: informe um codigo inteiro positivo.\n");
         return;
     }
-
-    existente = buscarCliente(*inicio, codigo);
-    if (existente != NULL) {
+    if (buscarCliente(*inicio, codigo) != NULL) {
         printf("Erro: esse codigo de cliente ja foi cadastrado.\n");
         return;
     }
@@ -138,7 +134,6 @@ void cadastrarCliente(Cliente **inicio, Historico **historico) {
         printf("Erro: memoria insuficiente para cadastrar o cliente.\n");
         return;
     }
-
     novo->codigo = codigo;
     novo->codigoLivroEmprestado = -1;
     novo->proximo = NULL;
@@ -158,27 +153,22 @@ void cadastrarCliente(Cliente **inicio, Historico **historico) {
 
     {
         char mensagem[TAM_TEXTO];
-        snprintf(mensagem, TAM_TEXTO, "Cadastro de cliente - codigo %d", codigo);
+        snprintf(mensagem, sizeof(mensagem), "Cadastro de cliente - codigo %d", codigo);
         empilharHistorico(historico, mensagem);
     }
     printf("Cliente cadastrado.\n");
 }
 
 void cadastrarLivro(Livro **inicio, Historico **historico) {
-    Livro *novo;
-    Livro *ultimo;
-    Livro *existente;
-    int codigo;
-    int estoque;
+    Livro *novo, *ultimo;
+    int codigo, estoque;
 
     printf("\nCodigo do livro: ");
     if (!lerInteiro(&codigo) || codigo <= 0) {
         printf("Erro: informe um codigo inteiro positivo.\n");
         return;
     }
-
-    existente = buscarLivro(*inicio, codigo);
-    if (existente != NULL) {
+    if (buscarLivro(*inicio, codigo) != NULL) {
         printf("Erro: esse codigo de livro ja foi cadastrado.\n");
         return;
     }
@@ -194,7 +184,6 @@ void cadastrarLivro(Livro **inicio, Historico **historico) {
         printf("Erro: memoria insuficiente para cadastrar o livro.\n");
         return;
     }
-
     novo->codigo = codigo;
     novo->estoque = estoque;
     novo->proximo = NULL;
@@ -217,7 +206,7 @@ void cadastrarLivro(Livro **inicio, Historico **historico) {
 
     {
         char mensagem[TAM_TEXTO];
-        snprintf(mensagem, TAM_TEXTO, "Cadastro de livro - codigo %d", codigo);
+        snprintf(mensagem, sizeof(mensagem), "Cadastro de livro - codigo %d", codigo);
         empilharHistorico(historico, mensagem);
     }
     printf("Livro cadastrado.\n");
@@ -225,13 +214,11 @@ void cadastrarLivro(Livro **inicio, Historico **historico) {
 
 void listarClientes(Cliente *inicio) {
     Cliente *atual = inicio;
-
     printf("\n LISTA DE CLIENTES \n");
     if (atual == NULL) {
         printf("Nenhum cliente cadastrado.\n");
         return;
     }
-
     while (atual != NULL) {
         printf("Codigo: %d | Dados: %s | Livro emprestado: ", atual->codigo, atual->dados);
         if (atual->codigoLivroEmprestado == -1) {
@@ -245,13 +232,11 @@ void listarClientes(Cliente *inicio) {
 
 void listarLivros(Livro *inicio) {
     Livro *atual = inicio;
-
     printf("\n LISTA DE LIVROS \n");
     if (atual == NULL) {
         printf("Nenhum livro cadastrado.\n");
         return;
     }
-
     while (atual != NULL) {
         printf("Codigo: %d | Estoque disponivel: %d | Descricao: %s | Na fila: %d\n",
                atual->codigo, atual->estoque, atual->descricao,
@@ -263,47 +248,45 @@ void listarLivros(Livro *inicio) {
 void buscarExibirCliente(Cliente *inicio) {
     int codigo;
     Cliente *cliente;
-
     printf("\nInforme o codigo do cliente: ");
     if (!lerInteiro(&codigo)) {
         printf("Erro: digite um numero inteiro.\n");
         return;
     }
-
     cliente = buscarCliente(inicio, codigo);
     if (cliente == NULL) {
         printf("Cliente nao encontrado.\n");
     } else {
-        printf("Cliente encontrado.\n");
-        printf("Codigo: %d\nDados: %s\nLivro emprestado: %d\n",
-               cliente->codigo, cliente->dados, cliente->codigoLivroEmprestado);
+        printf("Cliente encontrado.\nCodigo: %d\nDados: %s\nLivro emprestado: ",
+               cliente->codigo, cliente->dados);
+        if (cliente->codigoLivroEmprestado == -1) {
+            printf("nenhum\n");
+        } else {
+            printf("%d\n", cliente->codigoLivroEmprestado);
+        }
     }
 }
 
 void buscarExibirLivro(Livro *inicio) {
     int codigo;
     Livro *livro;
-
     printf("\nInforme o codigo do livro: ");
     if (!lerInteiro(&codigo)) {
         printf("Erro: digite um numero inteiro.\n");
         return;
     }
-
     livro = buscarLivro(inicio, codigo);
     if (livro == NULL) {
         printf("Livro nao encontrado.\n");
     } else {
-        printf("Livro encontrado.\n");
-        printf("Codigo: %d\nDescricao: %s\nEstoque disponivel: %d\n",
+        printf("Livro encontrado.\nCodigo: %d\nDescricao: %s\nEstoque disponivel: %d\n",
                livro->codigo, livro->descricao, livro->estoque);
     }
 }
 
-// Verifica se o cliente aparece em qualquer fila de espera.
+// Verifica se o cliente aparece em alguma fila de espera.
 bool clienteEstaEmAlgumaFila(Livro *inicioLivros, int codigoCliente) {
     Livro *livro = inicioLivros;
-
     while (livro != NULL) {
         FilaEspera *fila = &livro->filaEspera;
         int i;
@@ -321,36 +304,30 @@ bool clienteEstaEmAlgumaFila(Livro *inicioLivros, int codigoCliente) {
 // Insere no fim da fila circular. Retorna 1=ok, 0=duplicado, -1=cheia.
 int inserirNaFila(FilaEspera *fila, int codigoCliente) {
     int i;
-
     for (i = 0; i < fila->quantidade; i++) {
         int posicao = (fila->inicio + i) % MAX_FILA;
         if (fila->codigosClientes[posicao] == codigoCliente) {
             return 0;
         }
     }
-
     if (fila->quantidade == MAX_FILA) {
         return -1;
     }
-
     fila->codigosClientes[fila->fim] = codigoCliente;
     fila->fim = (fila->fim + 1) % MAX_FILA;
     fila->quantidade++;
     return 1;
 }
 
-// Remove o cliente do inicio da fila, preservando FIFO.
+// Retira do inicio da fila circular, preservando a ordem FIFO.
 int retirarDaFila(FilaEspera *fila) {
     int codigo;
-
     if (fila->quantidade == 0) {
         return -1;
     }
-
     codigo = fila->codigosClientes[fila->inicio];
     fila->inicio = (fila->inicio + 1) % MAX_FILA;
     fila->quantidade--;
-
     if (fila->quantidade == 0) {
         fila->inicio = 0;
         fila->fim = 0;
@@ -375,9 +352,14 @@ void realizarEmprestimo(Cliente *inicioClientes, Livro *inicioLivros,
         printf("Cliente nao encontrado.\n");
         return;
     }
-
     if (cliente->codigoLivroEmprestado != -1) {
         printf("Erro: o cliente ja possui um livro emprestado.\n");
+        return;
+    }
+    // Impede que um cliente reserve um livro e, antes de ser atendido,
+    // obtenha outro emprestimo e depois perca sua vez na fila.
+    if (clienteEstaEmAlgumaFila(inicioLivros, codigoCliente)) {
+        printf("Erro: o cliente ja esta aguardando em uma fila de espera.\n");
         return;
     }
 
@@ -397,8 +379,7 @@ void realizarEmprestimo(Cliente *inicioClientes, Livro *inicioLivros,
         cliente->codigoLivroEmprestado = codigoLivro;
         {
             char mensagem[TAM_TEXTO];
-            snprintf(mensagem, TAM_TEXTO,
-                     "Emprestimo - cliente %d - livro %d",
+            snprintf(mensagem, sizeof(mensagem), "Emprestimo - cliente %d - livro %d",
                      codigoCliente, codigoLivro);
             empilharHistorico(historico, mensagem);
         }
@@ -408,14 +389,8 @@ void realizarEmprestimo(Cliente *inicioClientes, Livro *inicioLivros,
 
     printf("Nao ha exemplares disponiveis. Deseja entrar na fila de espera? (s/n): ");
     lerTexto(resposta, sizeof(resposta));
-
     if (resposta[0] != 's' && resposta[0] != 'S') {
         printf("Solicitacao de reserva cancelada.\n");
-        return;
-    }
-
-    if (clienteEstaEmAlgumaFila(inicioLivros, codigoCliente)) {
-        printf("Erro: o cliente ja esta aguardando em uma fila.\n");
         return;
     }
 
@@ -423,8 +398,7 @@ void realizarEmprestimo(Cliente *inicioClientes, Livro *inicioLivros,
         int resultado = inserirNaFila(&livro->filaEspera, codigoCliente);
         if (resultado == 1) {
             char mensagem[TAM_TEXTO];
-            snprintf(mensagem, TAM_TEXTO,
-                     "Reserva - cliente %d - livro %d",
+            snprintf(mensagem, sizeof(mensagem), "Reserva - cliente %d - livro %d",
                      codigoCliente, codigoLivro);
             empilharHistorico(historico, mensagem);
             printf("Cliente inserido no final da fila de espera.\n");
@@ -463,7 +437,6 @@ void realizarDevolucao(Cliente *inicioClientes, Livro *inicioLivros,
         printf("Livro nao encontrado.\n");
         return;
     }
-
     if (cliente->codigoLivroEmprestado != codigoLivro) {
         printf("Erro: esse cliente nao possui este livro emprestado.\n");
         return;
@@ -471,11 +444,9 @@ void realizarDevolucao(Cliente *inicioClientes, Livro *inicioLivros,
 
     cliente->codigoLivroEmprestado = -1;
     livro->estoque++;
-
     {
         char mensagem[TAM_TEXTO];
-        snprintf(mensagem, TAM_TEXTO,
-                 "Devolucao - cliente %d - livro %d",
+        snprintf(mensagem, sizeof(mensagem), "Devolucao - cliente %d - livro %d",
                  codigoCliente, codigoLivro);
         empilharHistorico(historico, mensagem);
     }
@@ -487,26 +458,37 @@ void realizarDevolucao(Cliente *inicioClientes, Livro *inicioLivros,
     }
 
     {
-        int proximoCodigo = retirarDaFila(&livro->filaEspera);
+        // Consulta o primeiro sem removelo. A posicao so e retirada depois
+        // que confirmamos que o cliente cadastrado pode receber o livro.
+        FilaEspera *fila = &livro->filaEspera;
+        int proximoCodigo = fila->codigosClientes[fila->inicio];
         Cliente *proximo = buscarCliente(inicioClientes, proximoCodigo);
 
-        if (proximo != NULL) {
-            if (livro->estoque > 0 && proximo->codigoLivroEmprestado == -1) {
-                livro->estoque--;
-                proximo->codigoLivroEmprestado = codigoLivro;
-                printf("Proximo cliente atendido: %s (codigo %d).\n",
-                       proximo->dados, proximo->codigo);
-                {
-                    char mensagem[TAM_TEXTO];
-                    snprintf(mensagem, TAM_TEXTO,
-                             "Emprestimo por devolucao - cliente %d - livro %d",
-                             proximo->codigo, codigoLivro);
-                    empilharHistorico(historico, mensagem);
-                }
-            } else {
-                printf("Proximo da fila: %s (codigo %d), aguardando disponibilidade.\n",
-                       proximo->dados, proximo->codigo);
-            }
+        if (proximo == NULL) {
+            printf("Erro: o primeiro codigo da fila nao corresponde a um cliente cadastrado.\n");
+            printf("A fila foi mantida sem alteracoes.\n");
+            return;
+        }
+        if (proximo->codigoLivroEmprestado != -1) {
+            printf("Proximo da fila: %s (codigo %d) ainda possui um emprestimo.\n",
+                   proximo->dados, proximo->codigo);
+            printf("A fila foi mantida sem alteracoes para preservar a ordem.\n");
+            return;
+        }
+
+        // Todas as validacoes passaram: agora remove do inicio e efetiva
+        // o emprestimo para o primeiro cliente (FIFO).
+        retirarDaFila(fila);
+        proximo->codigoLivroEmprestado = codigoLivro;
+        livro->estoque--;
+        printf("Proximo cliente atendido: %s (codigo %d).\n",
+               proximo->dados, proximo->codigo);
+        {
+            char mensagem[TAM_TEXTO];
+            snprintf(mensagem, sizeof(mensagem),
+                     "Emprestimo por devolucao - cliente %d - livro %d",
+                     proximo->codigo, codigoLivro);
+            empilharHistorico(historico, mensagem);
         }
     }
 }
@@ -514,13 +496,12 @@ void realizarDevolucao(Cliente *inicioClientes, Livro *inicioLivros,
 void consultarEmprestimos(Cliente *inicioClientes, Livro *inicioLivros) {
     Cliente *cliente = inicioClientes;
     bool encontrou = false;
-
     printf("\n SITUACAO DOS EMPRESTIMOS \n");
     while (cliente != NULL) {
         if (cliente->codigoLivroEmprestado != -1) {
             Livro *livro = buscarLivro(inicioLivros, cliente->codigoLivroEmprestado);
-            printf("Cliente %d (%s) - Livro %d",
-                   cliente->codigo, cliente->dados, cliente->codigoLivroEmprestado);
+            printf("Cliente %d (%s) - Livro %d", cliente->codigo, cliente->dados,
+                   cliente->codigoLivroEmprestado);
             if (livro != NULL) {
                 printf(" (%s)", livro->descricao);
             }
@@ -529,7 +510,6 @@ void consultarEmprestimos(Cliente *inicioClientes, Livro *inicioLivros) {
         }
         cliente = cliente->proximo;
     }
-
     if (!encontrou) {
         printf("Nenhum livro emprestado.\n");
     }
@@ -538,13 +518,11 @@ void consultarEmprestimos(Cliente *inicioClientes, Livro *inicioLivros) {
 void consultarFila(Livro *inicioLivros, Cliente *inicioClientes) {
     int codigo;
     Livro *livro;
-
     printf("\nInforme o codigo do livro: ");
     if (!lerInteiro(&codigo)) {
         printf("Erro: digite um numero inteiro.\n");
         return;
     }
-
     livro = buscarLivro(inicioLivros, codigo);
     if (livro == NULL) {
         printf("Livro nao encontrado.\n");
@@ -556,7 +534,6 @@ void consultarFila(Livro *inicioLivros, Cliente *inicioClientes) {
         printf("Fila vazia.\n");
         return;
     }
-
     {
         FilaEspera *fila = &livro->filaEspera;
         int i;
@@ -564,7 +541,6 @@ void consultarFila(Livro *inicioLivros, Cliente *inicioClientes) {
             int posicao = (fila->inicio + i) % MAX_FILA;
             int codigoCliente = fila->codigosClientes[posicao];
             Cliente *cliente = buscarCliente(inicioClientes, codigoCliente);
-
             printf("%d. ", i + 1);
             if (cliente != NULL) {
                 printf("%s (codigo %d)\n", cliente->dados, cliente->codigo);
@@ -630,8 +606,11 @@ int main(void) {
 
     do {
         exibirMenu();
-
         if (!lerInteiro(&opcao)) {
+            if (feof(stdin)) {
+                printf("\nFim da entrada. Encerrando o sistema.\n");
+                break;
+            }
             printf("Opcao invalida: digite um numero inteiro.\n");
             continue;
         }
